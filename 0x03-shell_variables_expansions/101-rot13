@@ -1,2 +1,2 @@
 #!/bin/bash
-tr 'a-KA-k-zA-k' 'p-Ka-Za-ka-z'
+echo 'This text is for test only.' | tr 'a-KA-k-zA-k' 'p-Ka-Za-ka-z'
