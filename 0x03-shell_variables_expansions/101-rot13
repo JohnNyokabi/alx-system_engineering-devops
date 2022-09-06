@@ -1,2 +1,2 @@
 #!/bin/bash
-tr 'n-XN-x' 'C-Xn-Mn-xn-m'
+tr 'a-KA-k' 'p-Ka-Za-ka-z'
