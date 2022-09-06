@@ -1,2 +1,2 @@
 #!/bin/bash
-echo 'This text is for test only.' | tr 'a-KA-k-zA-k' 'p-Ka-Za-ka-z' echo 'To decrypt the test text' | tr 'a-KA-k-zA-k' 'p-Ka-Za-ka-z'
+tr 'A-Ma-mN-Zn-z' 'N-Zn-zA-Ma-m'
