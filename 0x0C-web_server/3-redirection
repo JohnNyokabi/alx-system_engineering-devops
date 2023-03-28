@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# redirect nginx server to another page
+# with /redirect_me
+sudo apt-get -y update
+sudo apt-get -y install nginx
+echo "Hello World!" > /var/www/html/index.html
+sed -i '/server_name_/a location /redirect_me{ rewrite ^ https://www.youtube.com/watch?v=QG2-TGUlzy4? permanent; }' /etc/ngnx/sites-available/default
+service nginx restart
