@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 # Install the load balanecer
 
-apt-get install --no-install-recommends software-properties-common
-add-apt-repository -y ppa:vbernat/haproxy-2.0
-apt-get -y install haproxy
-
-echo "ENABLED=1" >> /etc/default/haproxy
-
-cp /etc/haproxy/haproxy.cfg /etc/haproxy/original.cfg
+sudo apt-get install --no-install-recommends software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.0
+sudo apt-get -y install haproxy
+sudo chown $USER:$USER /etc/haproxy/haproxy.cfg
 
 echo "
 frontend front
@@ -18,4 +15,4 @@ backend back
         server 122619-web-01 100.27.14.80:80 check
         server 122619-web-02 54.236.24.31:80 check" >> /etc/haproxy/haproxy.cfg
 
-service haproxy restart
+sudo service haproxy restart
