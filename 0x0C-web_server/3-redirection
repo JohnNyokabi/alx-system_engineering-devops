@@ -3,6 +3,11 @@
 # with /redirect_me
 sudo apt-get -y update
 sudo apt-get -y install nginx
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
-sed -i 's/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/JohnNyokabi permanent;/' /etc/ngnx/sites-available/default
-service nginx start
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Hello World!" > /etc/nginx/html/index.html
+sudo sed -i '/^# Default server configuration/a\\
+	location /redirect_me {\n
+		return 301 http://www/github.com/JohnNyokabi;\n
+	}\n' /etc/nginx/sites-available/default
+sudo service nginx restart
