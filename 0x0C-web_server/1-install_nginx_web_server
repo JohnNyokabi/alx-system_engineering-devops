@@ -1,22 +1,7 @@
-i#!/usr/bin/env bash
+#!/usr/bin/env bash
 # Installing nginx on our webserver
-sudo apt-get -y update
-sudo apt-get -y install nginx
-if [ $? -eq 0 ]
-then
-    echo -e \
-"http {
-    root /var/www/html;
-    index index.html;
-    server {
-        listen 80;
-        location \ {
-        }
-    }
-}
-events {
-}" > /etc/nginx/nginx.conf
-    mkdir -p /var/www/html
-    echo "Hello World!" > \
-	/var/www/html/index.html
-    service nginx start
+apt-get -y update
+apt-get -y install nginx
+echo "Hello World!" > /var/www/html/index.html
+service nginx start
+
