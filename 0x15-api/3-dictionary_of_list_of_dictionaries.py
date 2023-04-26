@@ -20,7 +20,7 @@ if __name__ == '__main__':
         list_task = []
         for task in tasks:
             task_dict = {"username": name,
-                         "task": task.get('title')
+                         "task": task.get('title'),
                          "completed": task.get('completed')}
             list_task.append(task_dict)
 

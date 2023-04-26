@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """Script that extends #0 script to export data in CSV format"""
 import sys
 import csv

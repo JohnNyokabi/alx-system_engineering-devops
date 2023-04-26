@@ -13,8 +13,8 @@ if __name__ == '__main__':
     print("Employee {} is done with tasks".format(
         json_obj.get('name')), end="")
 
-    todo = '{}todo?userID={}'.format(url, sys.argv[1])
-    response = requests.get(todo)
+    todos = '{}todos?userID={}'.format(url, sys.argv[1])
+    response = requests.get(todos)
     tasks = response.json()
     list_task = []
     for task in tasks:
