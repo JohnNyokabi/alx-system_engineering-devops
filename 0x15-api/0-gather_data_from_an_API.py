@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Script that returns information about a user TODO list"""
-import sys
 import requests
+import sys
 
 base_url = 'https://jsonplaceholder.typicode.com/'
 

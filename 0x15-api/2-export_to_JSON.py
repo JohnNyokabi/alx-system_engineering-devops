@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 """Extends #0 script to export data in JSON format"""
-import sys
 import json
 import requests
-
+import sys
 
 base_url = 'https://jsonplaceholder.typicode.com/'
 
