@@ -8,15 +8,15 @@ import requests
 if __name__ == '__main__':
     url = 'https://jsonplaceholder.typicode.com/'
     user = '{}users'.format(url)
-    result = requests.get(user)
-    json_obj = result.json()
+    response = requests.get(user)
+    json_obj = response.json()
     task_dictionaries = {}
     for user in json_obj:
         name = user.get('username')
         userid = user.get('id')
         todo = '{}todo?userId={}'.format(url, userid)
-        result = requests.get(todo)
-        tasks = result.json()
+        response = requests.get(todo)
+        tasks = response.json()
         list_task = []
         for task in tasks:
             task_dict = {"username": name,

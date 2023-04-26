@@ -10,13 +10,13 @@ if __name__ == '__main__':
 
     userid = sys.argv[1]
     user = '{}users/{}'.format(url, userid)
-    result = requests.get(user)
-    json_obj = result.json()
+    response = requests.get(user)
+    json_obj = response.json()
     name = json_obj.get('username')
 
     todo = '{}todo?userID={}'.format(url, userid)
-    result = requests.get(todo)
-    tasks = result.json()
+    response = requests.get(todo)
+    tasks = response.json()
     list_task = []
     for task in tasks:
         task_dict = {"task": task.get('title'),
