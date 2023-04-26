@@ -5,26 +5,43 @@ import json
 import requests
 
 
+base_url = 'https://jsonplaceholder.typicode.com/'
+
+
+def do_request():
+    ''' request '''
+
+    if len(sys.argv) < 2:
+        return print('USAGE:', __file__, '<employee id>')
+    eid = sys.argv[1]
+    try:
+        _eid = int(sys.argv[1])
+    except ValueError:
+        return print('Employee id must be an integer')
+
+    response = requests.get(base_url + 'users/' + eid)
+    if response.status_code == 404:
+        return print('User id not found')
+    elif response.status_code != 200:
+        return print('Error: status_code:', response.status_code)
+    user = response.json()
+
+    response = requests.get(base_url + 'todos/')
+    if response.status_code != 200:
+        return print('Error: status_code:', response.status_code)
+    todos = response.json()
+    user_todos = [todo for todo in todos
+                  if todo.get('userId') == user.get('id')]
+    completed = [todo for todo in user_todos if todo.get('completed')]
+
+    user_todos = [{'task': todo.get('title'),
+                   'completed': todo.get('completed'),
+                   'username': user.get('username')}
+                  for todo in user_todos]
+    data = {eid: user_todos}
+    with open(eid + '.json', 'w') as file:
+        json.dump(data, file)
+
+
 if __name__ == '__main__':
-    url = 'https://jsonplaceholder.typicode.com/'
-
-    userid = sys.argv[1]
-    user = '{}users/{}'.format(url, userid)
-    response = requests.get(user)
-    json_obj = response.json()
-    name = json_obj.get('username')
-
-    todo = '{}todo?userID={}'.format(url, userid)
-    response = requests.get(todo)
-    tasks = response.json()
-    list_task = []
-    for task in tasks:
-        task_dict = {"task": task.get('title'),
-                     "completed": task.get('completed'),
-                     "username": name}
-        list_task.append(task_dict)
-
-    task_dictionaries = {str(userid): list_task}
-    filename = '{}.json'.format(userid)
-    with open(filename, mode='w') as f:
-        json.dump(task_dictionaries, f)
+    do_request()

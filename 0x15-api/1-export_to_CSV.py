@@ -1,35 +1,46 @@
 #!/usr/bin/python3
 """Script that extends #0 script to export data in CSV format"""
-import sys
 import csv
 import requests
+import sys
+
+base_url = 'https://jsonplaceholder.typicode.com/'
+
+
+def do_request():
+    ''' request '''
+
+    if not len(sys.argv):
+        return print('USAGE:', __file__, '<employee id>')
+    eid = sys.argv[1]
+    try:
+        _eid = int(sys.argv[1])
+    except ValueError:
+        return print('Employee id must be an integer')
+
+    response = requests.get(base_url + 'users/' + eid)
+    if response.status_code == 404:
+        return print('User id not found')
+    elif response.status_code != 200:
+        return print('Error: status_code:', response.status_code)
+    user = response.json()
+
+    response = requests.get(base_url + 'todos/')
+    if response.status_code != 200:
+        return print('Error: status_code:', response.status_code)
+    todos = response.json()
+    user_todos = [todo for todo in todos
+                  if todo.get('userId') == user.get('id')]
+    completed = [todo for todo in user_todos if todo.get('completed')]
+
+    with open(eid + '.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile, lineterminator='\n',
+                            quoting=csv.QUOTE_ALL)
+        [writer.writerow(['{}'.format(field) for field in
+                          (todo.get('userId'), user.get('username'),
+                           todo.get('completed'), todo.get('title'))])
+         for todo in user_todos]
 
 
 if __name__ == '__main__':
-    url = 'https://jsonplaceholder.typicode.com/'
-
-    userid = sys.argv[1]
-    user = '{}users/{}'.format(url, userid)
-    response = requests.get(user)
-    json_obj = response.json()
-    name = json_obj.get('username')
-
-    todo = '{}todo?userID={}'.format(url, userid)
-    response = requests.get(todo)
-    tasks = response.json()
-    list_task = []
-    for task in tasks:
-        list_task.append([userid,
-                          name,
-                          task.get('completed'),
-                          task.get('title')])
-
-    filename = '{}.csv'.format(userid)
-    with open(filename, mode='w') as employee_file:
-        employee = csv.writer(employee_file,
-                              delimiter=',',
-                              quotechar='"',
-                              quoting=csv.QUOTE_ALL)
-
-        for task in list_task:
-            employee.writerow(task)
+    do_request()
