@@ -11,7 +11,8 @@ def append_list(hot_list, posts):
     hot_list.append(posts[0]['data']['title'])
     posts.pop(0)
     append_list(hot_list, posts)
-    
+
+
 def recurse(subreddit, hot_list=[], after=None):
     """Get hot posts titles"""
     url = 'https://reddit.com/r/{}/hot.json'.format(subreddit)
