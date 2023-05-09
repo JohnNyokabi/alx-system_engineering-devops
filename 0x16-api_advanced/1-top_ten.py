@@ -13,7 +13,7 @@ def top_ten(subreddit):
         print("None")
         return
     children = res.json().get('data', {}).get('children', [])
-    if (!children):
+    if not children:
         print("None")
         return
     for item in children[0:10]:

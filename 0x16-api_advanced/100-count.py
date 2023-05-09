@@ -33,7 +33,7 @@ def recurse(subreddit, dic, after=None):
     posts = data['data']['children']
     append_title(dic, posts)
     after = data['data']['after']
-    if (!after):
+    if not after:
         return
     recurse(subreddit, dic, after=after)
 

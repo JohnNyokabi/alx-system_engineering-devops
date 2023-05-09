@@ -21,7 +21,7 @@ def recurse(subreddit, hot_list=[]):
         return None
     data = res.json().get('data', {})
     after = data.get('after', 'DONE')
-    if (!after):
+    if not after:
         after = "DONE"
     hot_list = hot_list + [item.get('data', {}).get('title')
                            for item in data.get('children', [])]
