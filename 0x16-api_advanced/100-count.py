@@ -25,7 +25,7 @@ def recurse(subreddit, dic, after=None):
     url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
     header = {'user-agent': 'Mozilla/5.0'}
     params = {'after': after}
-    res = requests.get(url, headers, params)
+    res = requests.get(url, header, params)
 
     if res.status_code != 200:
         return None

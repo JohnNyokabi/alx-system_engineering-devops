@@ -4,25 +4,27 @@ import requests
 import sys
 
 
-def recurse(subreddit, hot_list=[]):
+def append_list(hot_list, posts):
+    """adds item to the list"""
+    if len(posts) == 0:
+        return
+    hot_list.append(posts[0]['data']['title'])
+    posts.pop(0)
+    append_list(hot_list, posts)
+    
+def recurse(subreddit, hot_list=[], after=None):
     """Get hot posts titles"""
     url = 'https://reddit.com/r/{}/hot.json'.format(subreddit)
     header = {'user-agent': 'Mozilla/5.0'}
-    params = {'limit': 100}
+    params = {'after': after}
     res = requests.get(url, headers=header, params=params)
-
-    if isinstance(after, str):
-        if after != "DONE":
-            params['after'] = after
-        else:
-            return hot_list
 
     if res.status_code != 200:
         return None
-    data = res.json().get('data', {})
-    after = data.get('after', 'DONE')
+    dictionary = res.json()
+    posts = dictionary['data']['children']
+    append_list(hot_list, posts)
+    after = dictionary['data']['after']
     if not after:
-        after = "DONE"
-    hot_list = hot_list + [item.get('data', {}).get('title')
-                           for item in data.get('children', [])]
-    return recurse(subreddit, hot_list, after)
+        return hot_list
+    return recurse(subreddit, hot_list=hot_list, after=after)
