@@ -23,9 +23,12 @@ def append_title(dic, posts):
 def recurse(subreddit, dic, after=None):
     """Returns recursive Reddit API"""
     url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
-    header = {'user-agent': 'Mozilla/5.0'}
+    headers = {'user-agent': 'Mozilla/5.0'}
     params = {'after': after}
-    res = requests.get(url, header, params)
+    res = requests.get(url,
+                       headers=headers,
+                       params=params,
+                       allow_redirects=False)
 
     if res.status_code != 200:
         return None
