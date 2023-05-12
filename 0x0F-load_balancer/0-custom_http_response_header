@@ -1,11 +1,11 @@
 #!/usr/bin/env bash                                                            
 # Script that configures Nginx server with a custom header                      
-apt-get -y update
-apt-get -y install nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
 
 echo "Hello World!" > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
 sed -i "/listen 80 default_server;/a rewrite ^/redirect_me https://github.com/JohnNyokabi permanent;" /etc/nginx/sites-available/default
 sed -i "/listen 80 default_server;/a error_page 404 /custom_404.html;" /etc/nginx/sites-avilable/default
 sed -i '14a \\tadd_header X-Served-By '"${HOSTNAME}"';' /etc/nginx/nginx.conf
-service nginx start
+sudo service nginx start
