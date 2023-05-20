@@ -1,10 +1,8 @@
 #fix the stack to have 0 bugs
-exec {'replace':
-     provider => shell,
+exec {'set limit':
      path     => '/bin',
-     command	 => 'sudo sed -i "s/ULIMIT=\"-n 15\"/ULIMIT=\"-n 4096\"/" /etc/default/nginx'
+     command  => 'sed -i "s/15/2000/" /etc/default/nginx'
 }
 exec {'restart':
-     provider => shell,
-     command	 => 'sudo service nginx restart',
+     command	 => '/usr/sbin/service nginx restart'
 }

@@ -1,6 +1,10 @@
 # change OS configuration to login with holberton user
 
-exec {'OS configuration':
-     command => 'sed -i "s/holberton/foo/" /etc/security/limits.conf',
-     path    => '/usr/bin/env/:/bin/:/usr/bin/:/usr/sbin/'
+exec { 'hard limit':
+     command => 'sed -i "s/5/4000/" /etc/security/limits.conf',
+     path    => '/bin'
+}
+exec { 'soft limit':
+     command => 'sed -i "s/4/2000/" /etc/security/limits.conf',
+     path    => '/bin'
 }
