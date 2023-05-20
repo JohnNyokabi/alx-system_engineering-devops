@@ -1,10 +1,11 @@
 # change OS configuration to login with holberton user
 
 exec { 'hard limit':
-     command => 'sed -i "s/5/4000/" /etc/security/limits.conf',
-     path    => '/bin'
+     provider	=> shell,
+     command	=> 'sudo sed -i "s/nofile 5/nofile 4000/" /etc/security/limits.conf',
+     before	=> Exec['soft limit'],
 }
 exec { 'soft limit':
-     command => 'sed -i "s/4/2000/" /etc/security/limits.conf',
-     path    => '/bin'
+     provider => shell,
+     command  => 'sudo sed -i "s/nofile 4/nofile 2000/" /etc/security/limits.conf'
 }
