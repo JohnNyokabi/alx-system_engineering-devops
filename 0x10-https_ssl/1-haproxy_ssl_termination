@@ -37,18 +37,17 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-frontend http
-        bind *:80
-        http-request set-header X-Forwarded-Proto http
-        default_backend web-backend
-
 frontend www-https
         bind *:443 ssl crt /etc/haproxy/ssl/www.jnexussoln.tech.pem
-        http-request set-header X-Forwarded-Proto https
+        reqadd X-Forwarded-Proto:\ https
         default_backend web-backend
 
 backend web-backend
+	mode http
         balance roundrobin
-        redirect scheme https if !{ ssl_fc }
         server 122619-web-01 18.209.152.239:80 check
         server 122619-web-02 100.25.192.82:80 check
+
+frontend http-in
+	bind *:80
+	redirect scheme https if !{ ssl_fc }
