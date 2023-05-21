@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+# Script for stopping Gunicorn gracefully
+pkill -HUP gunicorn
