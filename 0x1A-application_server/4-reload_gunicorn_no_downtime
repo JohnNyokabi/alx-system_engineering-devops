@@ -1,3 +1,11 @@
 #!/usr/bin/env bash
 # Script for stopping Gunicorn gracefully
-ps aux | grep gunicorn | awk '{ print $2 }' | xargs pkill -HUP
+
+worker_pids=$(pgrep gunicorn)
+
+# Send a graceful reload signal to each worker
+for pid in $worker_pids; do
+    kill -s HUP $pid
+done
+
+echo "Gunicorn reloaded gracefully."
