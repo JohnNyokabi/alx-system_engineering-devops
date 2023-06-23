@@ -3,8 +3,5 @@
 
 worker_pids=$(pgrep gunicorn)
 for pid in $worker_pids; do
-    kill -s HUP "$pi"
+    kill -s HUP "$pid"
 done
-
-# Verify if the reload was successful
-new_worker_pids=$(pgrep gunicorn)
