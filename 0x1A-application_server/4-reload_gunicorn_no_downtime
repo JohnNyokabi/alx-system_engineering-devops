@@ -2,10 +2,15 @@
 # Script for stopping Gunicorn gracefully
 
 worker_pids=$(pgrep gunicorn)
-
-# Send a graceful reload signal to each worker
 for pid in $worker_pids; do
     kill -s HUP $pid
 done
 
-echo "Gunicorn reloaded gracefully."
+# Verify if the reload was successful
+new_worker_pids=$(pgrep gunicorn)
+
+if [[ "$worker_pids" == "$new_worker_pids" ]]; then
+    echo "NOk"
+else
+    echo "OK"
+fi
